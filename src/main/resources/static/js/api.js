@@ -27,3 +27,25 @@ async function chatWithBuddy(message){
     return await response.json();
 
 }
+
+async function chatWithDuck(message){
+
+    const response = await fetch("/api/duck/chat",{
+
+        method:"POST",
+
+        headers:{
+            "Content-Type":"application/json"
+        },
+
+        body:JSON.stringify({
+
+            message:message
+
+        })
+
+    });
+
+    return await response.json();
+
+}
