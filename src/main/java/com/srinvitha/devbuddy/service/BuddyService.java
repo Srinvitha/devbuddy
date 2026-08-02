@@ -4,7 +4,6 @@ import com.google.genai.Client;
 import com.google.genai.types.GenerateContentResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
 @Service
 @RequiredArgsConstructor
 public class BuddyService {
@@ -43,14 +42,19 @@ Question:
 
 """ + message;
 
-        GenerateContentResponse response =
-                client.models.generateContent(
-                        "gemini-2.5-flash",
-                        prompt,
-                        null
-                );
+        try {
+                GenerateContentResponse response =
+                        client.models.generateContent(
+                                "models/gemini-3.5-flash",
+                                prompt,
+                                null
+                        );
 
-        return response.text();
+                return response.text();
+
+        } catch (Exception e) {
+                return "DevBuddy is temporarily unavailable.\n\nReason: " + e.getMessage();
+        }
 
     }
 
