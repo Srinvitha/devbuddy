@@ -1,11 +1,67 @@
+const chat=document.getElementById("chat");
+
 const button=document.getElementById("send");
 
 button.onclick=async()=>{
 
-    const message=document.getElementById("message").value;
+    const textarea=document.getElementById("message");
 
-    const data=await chatWithBuddy(message);
+    const question=textarea.value.trim();
 
-    document.getElementById("reply").innerHTML=data.reply;
+    if(question==="") return;
 
-}
+    chat.innerHTML+=`
+
+        <div class="user">
+
+            ${question}
+
+        </div>
+
+    `;
+
+    textarea.value="";
+
+    chat.innerHTML+=`
+
+        <div class="ai" id="loading">
+
+            Thinking...
+
+        </div>
+
+    `;
+
+    chat.scrollTop=chat.scrollHeight;
+
+    const data=await chatWithBuddy(question);
+
+    document.getElementById("loading").remove();
+
+    chat.innerHTML+=`
+
+        <div class="ai">
+
+            ${data.reply}
+
+        </div>
+
+    `;
+
+    chat.scrollTop=chat.scrollHeight;
+
+};
+
+document
+.getElementById("message")
+.addEventListener("keydown",(e)=>{
+
+    if(e.key==="Enter" && !e.shiftKey){
+
+        e.preventDefault();
+
+        button.click();
+
+    }
+
+});

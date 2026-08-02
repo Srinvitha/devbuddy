@@ -1,10 +1,12 @@
 <!DOCTYPE html>
-
-<html>
+<html lang="en">
 
 <head>
 
-    <title>Buddy</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>AI Coding Buddy</title>
 
     <link rel="stylesheet" href="/css/common.css">
     <link rel="stylesheet" href="/css/buddy.css">
@@ -13,27 +15,44 @@
 
 <body>
 
-<h1>AI Coding Buddy</h1>
+<header>
 
-<textarea
-id="message"
-placeholder="Ask any programming question..."
-rows="10"></textarea>
+    <h1>AI Coding Buddy</h1>
 
-<br><br>
+    <a href="/">Home</a>
 
-<button id="send">
+</header>
 
-Send
+<main>
 
-</button>
+    <div id="chat">
 
-<h2>Response</h2>
+        <div class="ai">
 
-<div id="reply"></div>
+            Hello! Ask me anything related to programming.
+
+        </div>
+
+    </div>
+
+    <div class="input-area">
+
+        <textarea
+                id="message"
+                placeholder="Ask a programming question..."
+        ></textarea>
+
+        <button id="send">
+
+            Send
+
+        </button>
+
+    </div>
+
+</main>
 
 <script src="/js/api.js"></script>
-
 <script src="/js/buddy.js"></script>
 
 </body>
