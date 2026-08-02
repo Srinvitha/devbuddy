@@ -28,9 +28,9 @@ async function chatWithBuddy(message){
 
 }
 
-async function chatWithDuck(message){
+async function chatWithDuck(history){
 
-    const response = await fetch("/api/duck/chat",{
+    const response=await fetch("/api/duck/chat",{
 
         method:"POST",
 
@@ -40,7 +40,7 @@ async function chatWithDuck(message){
 
         body:JSON.stringify({
 
-            message:message
+            history:history
 
         })
 

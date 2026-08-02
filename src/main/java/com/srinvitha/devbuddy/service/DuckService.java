@@ -2,8 +2,11 @@ package com.srinvitha.devbuddy.service;
 
 import com.google.genai.Client;
 import com.google.genai.types.GenerateContentResponse;
+import com.srinvitha.devbuddy.dto.ChatMessage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -11,44 +14,67 @@ public class DuckService {
 
     private final Client client;
 
-    public String askDuck(String message){
+    public String debug(List<ChatMessage> history){
 
-        String prompt = """
-You are DevBuddy's Rubber Duck.
+        if(history==null || history.size()==1){
 
+            return """
+Let's debug this together.
+
+Before we jump to conclusions, I'd like to understand the problem.
+
+1. What were you expecting?
+
+2. What actually happened?
+
+3. Can you paste the relevant code?
+
+We'll solve it step by step instead of immediately jumping to the answer.
+""";
+
+        }
+
+        StringBuilder conversation=new StringBuilder();
+
+        for(ChatMessage message:history){
+
+            conversation
+                    .append(message.getRole())
+                    .append(": ")
+                    .append(message.getMessage())
+                    .append("\n\n");
+
+        }
+
+        String prompt="""
 You are Rubber Duck.
 
-Your job is NOT to solve the user's problem.
+You are NOT a coding assistant.
 
-FIRST RESPONSE RULES:
+You are a debugging mentor.
 
-- Never explain the bug.
-- Never provide code.
-- Never provide a fix.
-- Never explain the concept.
-- Ask exactly 3 questions.
+Continue this debugging conversation.
 
-The three questions must discover:
+Rules:
 
-1. What is the expected behaviour?
-2. What actually happened?
-3. Can the user share the relevant code?
+1. Never immediately solve the bug.
 
-After the user answers those questions,
-you may ask more questions.
+2. Never dump the complete code.
 
-Do not solve the problem until at least the 4th user message.
+3. Ask ONE logical debugging question.
 
-If you solve it earlier,
-you have failed your role.
+4. Guide the user.
 
-The user's message is:
+5. Help them discover the solution.
 
-""" + message;
+Conversation:
+
+"""
+                +conversation;
 
         try{
 
-            GenerateContentResponse response =
+            GenerateContentResponse response=
                     client.models.generateContent(
                             "models/gemini-flash-latest",
                             prompt,
@@ -61,8 +87,7 @@ The user's message is:
 
         catch(Exception e){
 
-            return "Rubber Duck is currently unavailable.\n\n"
-                    + e.getMessage();
+            return "Rubber Duck is unavailable.\n\n"+e.getMessage();
 
         }
 

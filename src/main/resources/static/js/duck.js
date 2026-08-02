@@ -2,6 +2,8 @@ const chat=document.getElementById("chat");
 
 const button=document.getElementById("send");
 
+const history=[];
+
 button.onclick=async()=>{
 
     const textarea=document.getElementById("message");
@@ -9,6 +11,14 @@ button.onclick=async()=>{
     const question=textarea.value.trim();
 
     if(question==="") return;
+
+    history.push({
+
+        role:"User",
+
+        message:question
+
+    });
 
     chat.innerHTML+=`
 
@@ -34,9 +44,17 @@ button.onclick=async()=>{
 
     chat.scrollTop=chat.scrollHeight;
 
-    const data=await chatWithDuck(question);
+    const data=await chatWithDuck(history);
 
     document.getElementById("loading").remove();
+
+    history.push({
+
+        role:"Assistant",
+
+        message:data.reply
+
+    });
 
     chat.innerHTML+=`
 
