@@ -2,6 +2,7 @@
 
 DevBuddy is an AI-powered programming assistant built using Spring Boot and Google Gemini.
 
+Check out Live: https://devbuddy-9p9h.onrender.com
 ---
 
 ## Features
